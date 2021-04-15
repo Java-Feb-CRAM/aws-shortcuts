@@ -1,24 +1,22 @@
 #!/bin/bash
-export AWS_PAGER=""
+
 echo "Starting Jenkins and SonarQube"
-aws ec2 start-instances --instance-ids "i-0391c79eb1e34922b" "i-015ba44adfc9a2a9d" --no-paginate --output table
+aws ec2 start-instances --instance-ids $JENKINS_INSTANCE $SONARQUBE_INSTANCE
 echo "Starting MySQL DB"
-aws rds start-db-instance --db-instance-identifier "utopia-prod" --no-paginate --output table
+aws rds start-db-instance --db-instance-identifier $DATABASE
 echo "Starting micro-services"
 
 start_microservices () {
-  arr=("$@")
+  arr=(${MICRO_SERVICES})
   for s in "${arr[@]}"
   do
     echo "Starting $s"
     aws application-autoscaling register-scalable-target \
     --service-namespace ecs --scalable-dimension ecs:service:DesiredCount \
-    --resource-id service/UtopiaCluster/$s \
-    --min-capacity 1 --max-capacity 2 --region us-east-1 \
-    --no-paginate --output table
+    --resource-id service/$CLUSTER_NAME/$s \
+    --min-capacity 1 --max-capacity 2 --region us-east-1
   done
 }
 
-micro_services=("TicketPaymentMS" "DiscoveryMS" "OrchestratorMS" "FlightPlaneMS")
-start_microservices "${micro_services[@]}"
+start_microservices
 echo "Startup complete"
