@@ -19,6 +19,7 @@ get_status_bool () {
 arg=$1
 if [[ "$arg" == "status" ]] || [[ "$arg" == "" ]]
 then
+  echo "Checking..."
   ./status.sh
 elif [[ "$arg" == "startup" ]] || [[ "$arg" == "start" ]]
 then
