@@ -8,6 +8,7 @@ export CLUSTER_NAME="UtopiaCluster"
 export CLUSTER_ARN="arn:aws:ecs:us-east-1:038778514259:cluster/$CLUSTER_NAME"
 export MICRO_SERVICES="TicketPaymentMS DiscoveryMS OrchestratorMS FlightPlaneMS"
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 get_status_bool () {
   echo "Checking..."
@@ -35,7 +36,7 @@ elif [[ "$arg" == "shutdown" ]] || [[ "$arg" == "stop" ]]
 then
 export SHUTTING_DOWN=true
   get_status_bool
-  if [[ "$retval" == "true" ]]
+  if [[ "$retval" == "false" ]]
   then
     ./shutdown.sh
   else
