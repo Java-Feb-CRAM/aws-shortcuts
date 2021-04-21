@@ -6,7 +6,7 @@ export SONARQUBE_INSTANCE="i-015ba44adfc9a2a9d"
 export DATABASE="utopia-prod"
 export CLUSTER_NAME="UtopiaCluster"
 export CLUSTER_ARN="arn:aws:ecs:us-east-1:038778514259:cluster/$CLUSTER_NAME"
-export MICRO_SERVICES="TicketPaymentMS DiscoveryMS OrchestratorMS FlightPlaneMS"
+export MICRO_SERVICES="TicketPaymentMS DiscoveryMS OrchestratorMS FlightPlaneMS UserAuthMS"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
